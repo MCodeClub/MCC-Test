@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./db.sqlite"
+}
+
+model Selection {
+  id             String          @id @default(cuid())
+  name           String
+  description    String? // Optional
+  budget         Float // Does this look right?
+  dueDate        DateTime
+  selectionItems SelectionItem[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model SelectionItem {
+  id          String     @id @default(cuid())
+  //TODO: define the rest of selection item  
+  name        String
+  description String?
+  imageUrl    String
+  price       Float
+  selection   Selection? @relation(fields: [selectionId], references: [id])
+  selectionId String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
